@@ -23,7 +23,8 @@ You already know basic SQL (SELECT, JOIN, INSERT/UPDATE) and want to get comfort
 
 | # | File | Topic |
 |---|------|-------|
-| 01 | `01-secure-bank-transfer-stored-procedures/` | Stored procedures, `START TRANSACTION` / `COMMIT` / `ROLLBACK`, `DECLARE HANDLER`, `SELECT ... FOR UPDATE` |
+| 00 | `00_init_schema.sql` | Base schema setup: `cuentas` and `historial_transferencias` tables |
+| 01 | `01_Secure_Bank_Transfer_Procedures.sql` | Stored procedures, `START TRANSACTION` / `COMMIT` / `ROLLBACK`, `DECLARE HANDLER`, `SELECT ... FOR UPDATE`, deadlock prevention |
 | 02 | `02-bank-stored-routines.sql` | User-defined functions (`DETERMINISTIC` vs `READS SQL DATA`), control flow, `WHILE` loops |
 | 03 | `03-bank-query-optimization.sql` | `EXPLAIN ANALYZE`, sargable predicates, composite and covering indexes |
 | 04 | `04-bank-security-permissions.sql` | Users, roles, column-level `GRANT`/`REVOKE`, prepared statements against SQL injection |
@@ -32,12 +33,12 @@ You already know basic SQL (SELECT, JOIN, INSERT/UPDATE) and want to get comfort
 ## Conventions used across labs
 
 - Table and column names stay in Spanish (`cuentas`, `historial_transferencias`, `saldo`) since they model a Spanish-speaking bank — comments and identifiers you write (procedures, functions, indexes) are in English.
-- Every script is idempotent where possible (`DROP ... IF EXISTS` before `CREATE`), so you can re-run a file without cleaning up by hand first.
+- Every script is idempotent where possible (`DROP ... IF EXISTS` before `CREATE` for procedures, functions, triggers, and events), so you can re-run a file without cleaning up by hand first. Labs 01–05 intentionally omit base table creation to avoid redundancy.
 - Money always uses `DECIMAL`, never `FLOAT` — rounding errors on currency are not a hypothetical.
 
 ## Setting up the schema
 
-Each lab that needs `BancoDB` creates it with `CREATE DATABASE IF NOT EXISTS`, so you can run any file directly. If you're starting fresh, run lab 01 first to get the base `cuentas` and `historial_transferencias` tables in place.
+Each lab that needs `BancoDB` creates it with `CREATE DATABASE IF NOT EXISTS`, so you can run any file directly. Labs 01–05 assume the base `cuentas` and `historial_transferencias` tables already exist; run `00_init_schema.sql` first to create them, then proceed with the workshops.
 
 ## Notes on security labs (04)
 
