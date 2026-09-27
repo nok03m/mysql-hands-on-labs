@@ -52,20 +52,38 @@ proc_body: BEGIN
 
     START TRANSACTION;
 
-    -- lock the source row so nobody else can touch it while we check the balance
-    SELECT saldo, titular
-        INTO v_saldo_origen, v_titular_origen
-        FROM cuentas
-        WHERE id_cuenta = p_origen
-        FOR UPDATE;
+    -- Lock accounts in ascending order by ID to prevent deadlocks
+    IF p_origen < p_destino THEN
+        -- Lock origin first (lower ID)
+        SELECT saldo, titular
+            INTO v_saldo_origen, v_titular_origen
+            FROM cuentas
+            WHERE id_cuenta = p_origen
+            FOR UPDATE;
 
-    SET v_existe_origen = ROW_COUNT();
+        SET v_existe_origen = ROW_COUNT();
 
-    -- lock the destination row too, we need to make sure it actually exists
-    SELECT COUNT(*) INTO v_existe_destino
-        FROM cuentas
-        WHERE id_cuenta = p_destino
-        FOR UPDATE;
+        -- Then lock destination
+        SELECT COUNT(*) INTO v_existe_destino
+            FROM cuentas
+            WHERE id_cuenta = p_destino
+            FOR UPDATE;
+    ELSE
+        -- Lock destination first (lower ID)
+        SELECT COUNT(*) INTO v_existe_destino
+            FROM cuentas
+            WHERE id_cuenta = p_destino
+            FOR UPDATE;
+
+        -- Then lock origin and get its balance/owner
+        SELECT saldo, titular
+            INTO v_saldo_origen, v_titular_origen
+            FROM cuentas
+            WHERE id_cuenta = p_origen
+            FOR UPDATE;
+
+        SET v_existe_origen = ROW_COUNT();
+    END IF;
 
     IF v_existe_origen = 0 OR v_existe_destino = 0 THEN
         ROLLBACK;
