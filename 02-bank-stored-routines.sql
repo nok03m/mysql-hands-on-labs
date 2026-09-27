@@ -1,6 +1,6 @@
 -- User-defined functions workshop, banking domain
 -- Reviewed and cleaned up: English naming, tighter validation, minor fixes
--- Table references (Cuentas, Transacciones) kept as-is since those already exist
+-- Table references (Cuentas, historial_transferencias) kept as-is since those already exist
 
 USE BancoDB;
 
@@ -45,7 +45,7 @@ DELIMITER ;
 
 -- ---------------------------------------------------------------------------
 -- Exercise 2: total withdrawals within a date range
--- READS SQL DATA since it hits the Transacciones table
+-- READS SQL DATA since it hits the historial_transferencias table
 -- ---------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS GetWithdrawalsTotalByPeriod;
 
@@ -68,9 +68,9 @@ BEGIN
 
     SELECT IFNULL(SUM(monto), 0.00)
     INTO v_total_withdrawals
-    FROM Transacciones
-    WHERE cuenta_id = p_account_id
-      AND tipo_transaccion = 'Retiro'
+    FROM historial_transferencias
+    WHERE cuenta_origen = p_account_id
+      AND estado_transferencia = 'Exitosa'
       AND DATE(fecha) BETWEEN p_start_date AND p_end_date;
 
     RETURN v_total_withdrawals;
@@ -142,7 +142,7 @@ BEGIN
 
     SELECT saldo INTO v_balance
     FROM Cuentas
-    WHERE cuenta_id = p_account_id;
+    WHERE id_cuenta = p_account_id;
 
     -- account doesn't exist, no point checking anything else
     IF v_balance IS NULL THEN
@@ -151,9 +151,8 @@ BEGIN
 
     SELECT IFNULL(SUM(monto), 0.00)
     INTO v_total_withdrawals
-    FROM Transacciones
-    WHERE cuenta_id = p_account_id
-      AND tipo_transaccion = 'Retiro';
+    FROM historial_transferencias
+    WHERE cuenta_origen = p_account_id;
 
     -- business rules, in order of priority
     IF v_balance >= 2000000.00 AND v_total_withdrawals <= (v_balance * 2) THEN
