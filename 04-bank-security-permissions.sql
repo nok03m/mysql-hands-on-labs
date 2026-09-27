@@ -8,23 +8,6 @@
 CREATE DATABASE IF NOT EXISTS BancoDB;
 USE BancoDB;
 
-CREATE TABLE IF NOT EXISTS cuentas (
-    id_cuenta INT PRIMARY KEY AUTO_INCREMENT,
-    titular VARCHAR(100) NOT NULL,
-    saldo DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    estado VARCHAR(20) DEFAULT 'Activa'
-);
-
-CREATE TABLE IF NOT EXISTS historial_transferencias (
-    id_transferencia INT AUTO_INCREMENT PRIMARY KEY,
-    cuenta_origen INT NOT NULL,
-    cuenta_destino INT NOT NULL,
-    monto DECIMAL(10, 2) NOT NULL,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cuenta_origen) REFERENCES cuentas(id_cuenta),
-    FOREIGN KEY (cuenta_destino) REFERENCES cuentas(id_cuenta)
-);
-
 INSERT INTO cuentas (titular, saldo, estado) VALUES
 ('Carlos Mendoza', 2500000.00, 'Activa'),
 ('Ana Gómez', 850000.00, 'Activa'),

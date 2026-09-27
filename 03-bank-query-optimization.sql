@@ -4,33 +4,6 @@
 CREATE DATABASE IF NOT EXISTS BancoDB;
 USE BancoDB;
 
--- ---------------------------------------------------------------------------
--- Part 0: schema + bulk test data
--- ---------------------------------------------------------------------------
-
-DROP TABLE IF EXISTS historial_transferencias;
-DROP TABLE IF EXISTS cuentas;
-
-CREATE TABLE cuentas (
-    id_cuenta INT PRIMARY KEY AUTO_INCREMENT,
-    titular VARCHAR(100) NOT NULL,
-    tipo_cuenta VARCHAR(20) NOT NULL DEFAULT 'Ahorros',
-    saldo DECIMAL(12,2) NOT NULL DEFAULT 0.00,
-    estado VARCHAR(20) NOT NULL DEFAULT 'Activa',
-    fecha_apertura DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE historial_transferencias (
-    id_transferencia INT AUTO_INCREMENT PRIMARY KEY,
-    cuenta_origen INT NOT NULL,
-    cuenta_destino INT NOT NULL,
-    monto DECIMAL(12, 2) NOT NULL,
-    estado_transferencia VARCHAR(20) NOT NULL DEFAULT 'Exitosa',
-    fecha DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (cuenta_origen) REFERENCES cuentas(id_cuenta),
-    FOREIGN KEY (cuenta_destino) REFERENCES cuentas(id_cuenta)
-);
-
 -- helper procedure, just here to generate enough rows to see real timing differences
 DELIMITER //
 CREATE PROCEDURE CargarDatosPrueba()

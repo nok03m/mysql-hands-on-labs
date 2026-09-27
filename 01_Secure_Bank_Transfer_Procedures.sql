@@ -8,36 +8,6 @@ CREATE DATABASE IF NOT EXISTS BancoDB
 
 USE BancoDB;
 
--- dropping tables first in case we're re-running this
-DROP TABLE IF EXISTS historial_transferencias;
-DROP TABLE IF EXISTS cuentas;
-
-CREATE TABLE cuentas (
-    id_cuenta   INT PRIMARY KEY,
-    titular     VARCHAR(100)    NOT NULL,
-    saldo       DECIMAL(10,2)   NOT NULL DEFAULT 0.00,
-    CONSTRAINT chk_saldo_no_negativo CHECK (saldo >= 0) -- just a safety net, the procedure already checks this
-) ENGINE = InnoDB;
-
--- keeps a record of every transfer attempt, successful or not
-CREATE TABLE historial_transferencias (
-    id_transferencia INT AUTO_INCREMENT PRIMARY KEY,
-    cuenta_origen     INT             NOT NULL,
-    cuenta_destino    INT             NOT NULL,
-    monto             DECIMAL(10,2)   NOT NULL,
-    codigo_respuesta  INT             NOT NULL,
-    usuario_responsable VARCHAR(100)  NULL,
-    fecha             TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_hist_cuenta_origen
-        FOREIGN KEY (cuenta_origen) REFERENCES cuentas(id_cuenta),
-    CONSTRAINT fk_hist_cuenta_destino
-        FOREIGN KEY (cuenta_destino) REFERENCES cuentas(id_cuenta)
-) ENGINE = InnoDB;
-
--- indexes to make the audit table lookups faster later on
-CREATE INDEX idx_hist_cuenta_origen ON historial_transferencias(cuenta_origen);
-CREATE INDEX idx_hist_cuenta_destino ON historial_transferencias(cuenta_destino);
-
 -- test accounts
 INSERT INTO cuentas (id_cuenta, titular, saldo) VALUES
     (1, 'Ana López', 5000.00),
