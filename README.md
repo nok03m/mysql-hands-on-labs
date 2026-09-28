@@ -23,7 +23,7 @@ You already know basic SQL (SELECT, JOIN, INSERT/UPDATE) and want to get comfort
 
 | # | File | Topic |
 |---|------|-------|
-| 00 | `00_init_schema.sql` | Base schema setup: `cuentas` and `historial_transferencias` tables |
+| 00 | `00-init-schema.sql` | Base schema setup: `cuentas` and `historial_transferencias` tables |
 | 01 | `01_Secure_Bank_Transfer_Procedures.sql` | Stored procedures, `START TRANSACTION` / `COMMIT` / `ROLLBACK`, `DECLARE HANDLER`, `SELECT ... FOR UPDATE`, deadlock prevention |
 | 02 | `02-bank-stored-routines.sql` | User-defined functions (`DETERMINISTIC` vs `READS SQL DATA`), control flow, `WHILE` loops |
 | 03 | `03-bank-query-optimization.sql` | `EXPLAIN ANALYZE`, sargable predicates, composite and covering indexes |
@@ -38,7 +38,7 @@ You already know basic SQL (SELECT, JOIN, INSERT/UPDATE) and want to get comfort
 
 ## Setting up the schema
 
-Each lab that needs `BancoDB` creates it with `CREATE DATABASE IF NOT EXISTS`, so you can run any file directly. Labs 01–05 assume the base `cuentas` and `historial_transferencias` tables already exist; run `00_init_schema.sql` first to create them, then proceed with the workshops.
+Each lab that needs `BancoDB` creates it with `CREATE DATABASE IF NOT EXISTS`, so you can run any file directly. Labs 01–05 assume the base `cuentas` and `historial_transferencias` tables already exist; run `00-init-schema.sql` first to create them, then proceed with the workshops.
 
 ## Notes on security labs (04)
 
