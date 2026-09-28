@@ -71,7 +71,7 @@ BEGIN
     FROM historial_transferencias
     WHERE cuenta_origen = p_account_id
       AND estado_transferencia = 'Exitosa'
-      AND DATE(fecha) BETWEEN p_start_date AND p_end_date;
+      AND fecha >= p_start_date AND fecha < p_end_date + INTERVAL 1 DAY;
 
     RETURN v_total_withdrawals;
 END //
