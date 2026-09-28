@@ -5,23 +5,24 @@ CREATE DATABASE IF NOT EXISTS BancoDB;
 USE BancoDB;
 
 -- helper procedure, just here to generate enough rows to see real timing differences
+-- NOTE: Data generation is optional. Labs 01-05 assume existing test data from 00_init_schema.sql.
 DELIMITER //
 CREATE PROCEDURE CargarDatosPrueba()
 BEGIN
     DECLARE i INT DEFAULT 1;
 
-    -- 1,000 accounts
-    WHILE i <= 1000 DO
-        INSERT INTO cuentas (titular, tipo_cuenta, saldo, estado, fecha_apertura)
-        VALUES (
-            CONCAT('Cliente_', i),
-            IF(i % 2 = 0, 'Ahorros', 'Corriente'),
-            ROUND(RAND() * 10000000, 2),
-            IF(i % 10 = 0, 'Bloqueada', 'Activa'),
-            DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY)
-        );
-        SET i = i + 1;
-    END WHILE;
+    -- 1,000 accounts (commented out: base data lives in 00_init_schema.sql)
+    -- WHILE i <= 1000 DO
+    --     INSERT INTO cuentas (titular, tipo_cuenta, saldo, estado, fecha_apertura)
+    --     VALUES (
+    --         CONCAT('Cliente_', i),
+    --         IF(i % 2 = 0, 'Ahorros', 'Corriente'),
+    --         ROUND(RAND() * 10000000, 2),
+    --         IF(i % 10 = 0, 'Bloqueada', 'Activa'),
+    --         DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY)
+    --     );
+    --     SET i = i + 1;
+    -- END WHILE;
 
     -- 10,000 transfers
     SET i = 1;
@@ -39,7 +40,8 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL CargarDatosPrueba();
+-- Optional: Uncomment to generate test data if needed
+-- CALL CargarDatosPrueba();
 DROP PROCEDURE IF EXISTS CargarDatosPrueba;
 
 

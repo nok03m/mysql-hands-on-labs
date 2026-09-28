@@ -44,6 +44,13 @@ Each lab that needs `BancoDB` creates it with `CREATE DATABASE IF NOT EXISTS`, s
 
 The credentials in that script are placeholders for the exercise only — never reuse them anywhere real. In production, secrets come from a vault or environment-based secret manager, not a hardcoded `CREATE USER` statement.
 
+## Notes on events labs (05)
+
+MySQL's event scheduler must be enabled for scheduled events to run:
+```sql
+SET GLOBAL event_scheduler = ON;
+```
+
 ## Contributing / feedback
 
 This is a personal learning repo. Issues and suggestions are welcome, but treat the reference solutions as a starting point to argue with, not gospel — there's often more than one reasonable way to index a query.

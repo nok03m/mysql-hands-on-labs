@@ -49,6 +49,7 @@ CREATE INDEX idx_hist_cuenta_origen ON historial_transferencias(cuenta_origen);
 CREATE INDEX idx_hist_cuenta_destino ON historial_transferencias(cuenta_destino);
 
 -- 4. Initial Seed Data
+-- These accounts are used across all labs (01-05). Do not modify or delete them.
 INSERT INTO cuentas (titular, saldo, estado, tipo_cuenta) VALUES
 ('Carlos Mendoza', 2500000.00, 'Activa', 'Ahorros'),
 ('Ana Gómez', 850000.00, 'Activa', 'Corriente'),
