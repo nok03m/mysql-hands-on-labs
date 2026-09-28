@@ -8,11 +8,6 @@
 CREATE DATABASE IF NOT EXISTS BancoDB;
 USE BancoDB;
 
-INSERT INTO cuentas (titular, saldo, estado) VALUES
-('Carlos Mendoza', 2500000.00, 'Activa'),
-('Ana Gómez', 850000.00, 'Activa'),
-('Roberto Silva', 120000.00, 'Bloqueada');
-
 -- ---------------------------------------------------------------------------
 -- Step 1: drop anonymous accounts, they're a standard attack surface
 -- ---------------------------------------------------------------------------

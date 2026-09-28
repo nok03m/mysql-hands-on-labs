@@ -52,4 +52,6 @@ CREATE INDEX idx_hist_cuenta_destino ON historial_transferencias(cuenta_destino)
 INSERT INTO cuentas (titular, saldo, estado, tipo_cuenta) VALUES
 ('Carlos Mendoza', 2500000.00, 'Activa', 'Ahorros'),
 ('Ana Gómez', 850000.00, 'Activa', 'Corriente'),
-('Roberto Silva', 120000.00, 'Bloqueada', 'Ahorros');
+('Roberto Silva', 120000.00, 'Bloqueada', 'Ahorros'),
+('Ana López', 5000.00, 'Activa', 'Ahorros'),
+('Carlos Pérez', 3000.00, 'Activa', 'Corriente');

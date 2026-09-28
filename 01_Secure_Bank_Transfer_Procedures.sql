@@ -8,11 +8,6 @@ CREATE DATABASE IF NOT EXISTS BancoDB
 
 USE BancoDB;
 
--- test accounts
-INSERT INTO cuentas (id_cuenta, titular, saldo) VALUES
-    (1, 'Ana López', 5000.00),
-    (2, 'Carlos Pérez', 3000.00);
-
 -- Main procedure. Handles the whole transfer flow: validates the amount,
 -- locks both accounts, checks balance, moves the money and logs everything.
 -- Includes the extra requirements from the challenge (amount > 0 check,
